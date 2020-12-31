@@ -10,7 +10,8 @@
             "label": "save and compile for C++",
             "command": "g++",
             "args": [
-                "${file}",
+				"${file}",
+				"-g",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
@@ -42,7 +43,8 @@
             "command": "gcc",
             "args": [
                 "${file}",
-                "-o",
+				"-o",
+				"-g",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
             "group": "build",
