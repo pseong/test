@@ -11,3 +11,6 @@ https://webnautes.tistory.com/1158 : c/c++ 환경설정
     //실행
     { "key": "ctrl+alt+r", "command": "workbench.action.tasks.test" }
 ]
+
+파이썬
+ctrl+shift+b

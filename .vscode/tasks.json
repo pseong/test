@@ -69,6 +69,23 @@
                 }
             }
         },
+        {
+            "label": "Python Run",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "${file}"
+            ],
+            "options": {
+                "env": {
+                    "PYTHONIOENCODING": "UTF-8"
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true               
+            }
+        },
         //바이너리 실행(Ubuntu)
         {
              "label": "execute",
