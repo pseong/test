@@ -1,8 +1,12 @@
-print('a')
+n, k = map(int, input().split())
 
-a = [1,3,2,4]
+result = 0
+while n > 1:
+    if n % k == 0:
+        n /= k
+        result += 1
+    else:
+        n -= 1
+        result += 1
 
-for i in a:
-    i += 1
-    i += 5
-    print(i)
+print(result)
