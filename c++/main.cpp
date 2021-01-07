@@ -1,18 +1,19 @@
-#include <iostream>
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
+using namespace __gnu_pbds;
 
-int c = 0;
-int d = 100;
-
+typedef tree<int, null_type, less<int>, rb_tree_tag,
+            tree_order_statistics_node_update> indexed_set;
 int main()
 {
-    int a = 2;
-    int b = 2;
-    int c = a + b + 5;
+    indexed_set s;
+    s.insert(7);
+    s.insert(9);
+    s.insert(2);
+    s.insert(3);
 
-    cout << a << " + " << b << " = " << c << endl;
-    cout << "heelo";
-
+    cout << s.order_of_key(8) << "\n";
     return 0;
 }
