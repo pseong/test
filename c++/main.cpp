@@ -9,7 +9,7 @@ int main() {
 
     int t;
     cin >> t;
-    while(t--) {
+    for(int i = 1; i <= t; i++) {
         int n, p, k;
         cin >> n >> p >> k;
         string s;
@@ -20,18 +20,25 @@ int main() {
         int bound[100010] = {0};
         int start = p - 1;
 
-        bound[start] = (s[start] == 1) ? 0 : x;
+        bound[start] = (s[start] == '1') ? 0 : x;
         for(int i = start + 1; i < start + k; i++) {
-            if(i > n - 1) break;
+            if(i > n - 1) continue;
             bound[i] = y * (i - start);
             bound[i] += ((s[i] == '1') ? 0 : x);
         }
         for(int i = start + k; i < n; i++) {
-            bound[i] = min(bound[i - k], bound[i - 1] + y) + ((s[i] == '1') ? 0 : x);
+            bound[i] = bound[i - k] + ((s[i] == '1') ? 0 : x);
         }
+        
         int result = bound[n - 1];
         for(int i = 1; i < k; i++) {
+            if(n - 1 - i < start) continue;
             result = min(result, bound[n - 1 - i]);
+        }
+
+        for(int i = n - 1; i > n - 1 - k; i--) {
+            if(i < start) continue;
+            result = min(result, i * y + ((s[i] == '1') ? 0 : x));
         }
         cout << result << '\n';
     }
