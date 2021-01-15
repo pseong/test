@@ -2,34 +2,57 @@
 
 using namespace std;
 
-int find(vector<int> v) {
-    if(v.size() < 2) return 0;
+int cng = 100010;
+void find(vector<int> v, int lv) {
+    if(v.size() < 2 || lv >= cng) return;
 
-    int result = 0;
-
-    int a = 0;
+    int pre = 0;
     for(int i : v) {
-        if (a > i) { 
-            result += 1;
-            break;
+        if (pre > i) {
+            cng = min(cng, lv);
+            return;
         }
-        a = i;
+        pre = i;
     }
 
-    for(auto i = v.begin(); i < v.end() - 1; i++) {
-        int a = *i;
-        int b = *(i+1);
-        int j = a^b;
+    for(auto i = 0; i < v.size() - 1; i++) {
+        int a = v[i];
+        int b = v[i + 1];
+        int f = a^b;
 
-        v.erase(i); *(i+1) = j;
-        result += find(v);
-        v.insert(i, a); *(i+1) = b;
+        v[i] = f;
+        v.erase(v.begin() + i + 1);
+
+        int pre = 0;
+        for(int i : v) {
+            if (pre > i) {
+                cng = min(cng, lv + 1);
+                return;
+            }
+            pre = i;
+        }
+
+        v[i] = a;
+        v.insert(v.begin() + i + 1, b);
     }
-    return result;
+
+    for(auto i = 0; i < v.size() - 1; i++) {
+        int a = v[i];
+        int b = v[i + 1];
+        int f = a^b;
+
+        v[i] = f;
+        v.erase(v.begin() + i + 1);
+
+        find(v, lv + 1);
+
+        v[i] = a;
+        v.insert(v.begin() + i + 1, b);
+    }
 }
 
 int main() {
-    ios_base :: sync_with_stdio(false); 
+    ios_base::sync_with_stdio(false); 
     cin.tie(NULL); 
     cout.tie(NULL);
 
@@ -41,12 +64,7 @@ int main() {
         cin >> a;
         v.push_back(a);
     }
-    int result;
-    result = find(v);
+    find(v, 0);
 
-    if(result == 0) {
-        cout << -1;
-    } else {
-        cout << result;
-    }
+    cout << ((cng == 100010) ? -1 : cng);
 }
