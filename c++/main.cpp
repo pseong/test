@@ -2,48 +2,37 @@
 
 using namespace std;
 
+int n;
+
+bool RngChk(int y, int x) {
+    if(y > 2 || y < 1
+        || x < 1 || x > n) return false;
+}
+
 int main() {
     ios_base::sync_with_stdio(false); 
     cin.tie(NULL); 
     cout.tie(NULL);
 
-    int n;
-    cin >> n;
+    int sc[3][100010]{{ 0 }};
 
-    int dp0[110]{ 0 };
-    int dp1[110]{ 0 };
-    int dp2[110]{ 0 };
-    int dp3[110]{ 0 };
-    int dp4[110]{ 0 };
-    int dp5[110]{ 0 };
-    int dp6[110]{ 0 };
-    int dp7[110]{ 0 };
-    int dp8[110]{ 0 };
-    int dp9[110]{ 0 };
+    int mxsc[3][100010]{{ 0 }};
 
-    
-    dp0[1] = 0;
-    dp1[1] = 1;
-    dp2[1] = 1;
-    dp3[1] = 1;
-    dp4[1] = 1;
-    dp5[1] = 1;
-    dp6[1] = 1;
-    dp7[1] = 1;
-    dp8[1] = 1;
-    dp9[1] = 1;
+    int t;
+    cin >> t;
+    while(t--) {
+        cin >> n;
+        for(int i = 1; i <= n; i++)
+            cin >> sc[1][i];
+        for(int i = 1; i <= n; i++)
+            cin >> sc[2][i];
 
-    for(int i = 2; i <= n; i++) {
-        dp0[i] = dp1[i - 1] % 1000000000;
-        dp1[i] = (dp0[i - 1] + dp2[i - 1]) % 1000000000;
-        dp2[i] = (dp1[i - 1] + dp3[i - 1]) % 1000000000;
-        dp3[i] = (dp2[i - 1] + dp4[i - 1]) % 1000000000;
-        dp4[i] = (dp3[i - 1] + dp5[i - 1]) % 1000000000;
-        dp5[i] = (dp4[i - 1] + dp6[i - 1]) % 1000000000;
-        dp6[i] = (dp5[i - 1] + dp7[i - 1]) % 1000000000;
-        dp7[i] = (dp6[i - 1] + dp8[i - 1]) % 1000000000;
-        dp8[i] = (dp7[i - 1] + dp9[i - 1]) % 1000000000;
-        dp9[i] = dp8[i - 1] % 1000000000;
+        mxsc[1][1] = sc[1][1];
+        mxsc[2][1] = sc[2][1];
+        for(int i = 1; i <= n; i++) {
+            mxsc[1][i] = max(mxsc[2][i - 1] + sc[1][i], mxsc[1][i - 1] - sc[1][i - 1] + sc[1][i]);
+
+            mxsc[2][i] = mxsc[1][i - 1] + sc[2][i];
+        }
     }
-    cout << (dp0[n] + dp1[n] + dp2[n] + dp3[n] + dp4[n] + dp5[n] + dp6[n] + dp7[n] + dp8[n] + dp9[n]) % 1000000000;
 }
