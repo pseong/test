@@ -7,7 +7,12 @@ int main() {
     cin.tie(0); 
     cout.tie(0);
 
-    int n, k;
-    cin >> n >> k;
-    
+    string s;
+    cin >> s;
+
+    int dp[5010]{ 0 };
+    dp[0] = 1;
+    for(int i = 1; i < s.size(); i++) {
+        dp[i] +=-
+    }
 }
