@@ -2,7 +2,8 @@
     "files.associations": {
         "iostream": "cpp",
         "functional": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "valarray": "cpp"
     },
     "cmake.configureOnOpen": false
 }
