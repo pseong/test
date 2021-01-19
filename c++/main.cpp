@@ -20,8 +20,8 @@ int main() {
             adj[i] = a;
         }
 
-        bool visited[10010]{ 0 };
-        short team[10010]{ 0 };
+        bool visited[100010]{ 0 };
+        short team[100010]{ 0 };
 
         for(int i = 1; i <= n; i++) {
             if (visited[i]) continue;

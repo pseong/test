@@ -23,4 +23,26 @@ int main() {
     ios::sync_with_stdio(0); 
     cin.tie(0); 
     cout.tie(0);
+
+    cin >> n;
+
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= n; j++)
+            m[i][j] = getchar();
+        char trash = getchar();
+    }
+
+    vector<int> vec;
+    for(int i =1; i <= n; i++)
+        for(int j = 1; j <= n; j++)
+            if(m[i][j] == '1') {
+                find(i, j);
+                vec.push_back(sizee);
+                sizee = 0;
+            }
+
+    sort(vec.begin(), vec.end());
+    cout << vec.size() << '\n';
+    for(int i : vec)
+        cout << i << '\n';
 }
