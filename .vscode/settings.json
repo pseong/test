@@ -3,7 +3,8 @@
         "iostream": "cpp",
         "functional": "cpp",
         "random": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "tuple": "cpp"
     },
     "cmake.configureOnOpen": false
 }

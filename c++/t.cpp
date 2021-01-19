@@ -2,22 +2,11 @@
 
 using namespace std;
 
-bool m[51][51]{ 0 };
+short m, n;
 
-int h = 0;
-int w = 0;
-
-void find(int i , int j ) {
-    if(i < 1 || j < 1 || i > h || j > w || m[i][j] == 0) return;
-    if(m[i][j] == 1) m[i][j] = 0;
-    find(i - 1, j - 1);
-    find(i - 1, j);
-    find(i - 1, j + 1);
-    find(i, j - 1);
-    find(i, j + 1);
-    find(i + 1, j - 1);
-    find(i + 1, j);
-    find(i + 1, j + 1);
+bool valid(short i, short j) {
+    if(i < 1 || j < 1 || i > n || j > m) return false;
+    else return true;
 }
 
 int main() {
@@ -25,26 +14,35 @@ int main() {
     cin.tie(0); 
     cout.tie(0);
 
-    while(1) {
-        cin >> w >> h;
-        if(w == 0 && h == 0) break;
+    short box[1010][1010]{ 0 };
+    cin >> m >> n;
 
-        for(int i = 1; i <= h; i++)
-            for(int j = 1; j <= w; j++)
-                cin >> m[i][j];
+    queue<tuple<short, short, short>> que;
+    
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= m; j++) {
+            cin >> box[i][j];
+            if (box[i][j] == 1) que.push({i, j, 1});
+        }
+    
+    while(!que.empty()) {
+        auto a = que.front(); que.pop();
+        int i = get<0>(a); int j = get<1>(a); int k = get<2>(a);
+        box[i][j] = k;
 
-        int result = 0;
-        for(int i = 1; i <= h; i++)
-            for(int j = 1; j <= w; j++)
-                if(m[i][j] == 1) {
-                    find(i, j);
-                    result++;
-                }
-
-        cout << result << '\n';
-
-        for(int i = 1; i <= h; i++)
-            for(int j = 1; j <= w; j++)
-                m[i][j] = 0;
+        if(box[i - 1][j] == 0 && valid(i - 1, j)) que.push({i - 1, j, k + 1});
+        if(box[i + 1][j] == 0 && valid(i + 1, j)) que.push({i + 1, j, k + 1});
+        if(box[i][j - 1] == 0 && valid(i, j - 1)) que.push({i, j - 1, k + 1});
+        if(box[i][j + 1] == 0 && valid(i, j + 1)) que.push({i, j + 1, k + 1});
     }
+
+    short mx = 0;
+    bool result = 1;
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= m; j++) {
+            mx = max(mx, box[i][j]);
+            if(box[i][j] == 0) result = 0;
+        }
+    if(result) cout << mx - 1;
+    else cout << -1;
 }
