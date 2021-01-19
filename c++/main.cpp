@@ -2,31 +2,50 @@
 
 using namespace std;
 
-char rots(char c) {
-    c += 13;
-    if(c > 122) c = (c - 122) + 96;
-}
-
-char rotb(char c) {
-    c += 13;
-    if(c > 90) c = (c - 90) + 64;
-}
-
 int main() {
     ios::sync_with_stdio(0); 
     cin.tie(0); 
     cout.tie(0);
 
-    string s;
-    cin >> s;
+    int t;
+    cin >> t;
 
-    char c[110]{ 0 };
-    for(int i = 0; i < s.size(); i++) {
-        if(s[i] >= 65 && s[i] <= 90) c[i] = rotb(s[i]);
-        else if(s[i] >= 97 && s[i] <= 122) c[i] = rots(s[i]);
-        else c[i] = s[i];
+    int adj[100010]{ 0 };
+    while(t--) {
+        int n;
+        cin >> n;
+        for(int i = 1; i <= n; i++) {
+            int a;
+            cin >> a;
+            adj[i] = a;
+        }
+
+        bool visited[10010]{ 0 };
+        short team[10010]{ 0 };
+
+        for(int i = 1; i <= n; i++) {
+            if (visited[i]) continue;
+            int go = i;
+            while(!visited[go]) {
+                visited[go] = 1;
+                go = adj[go];
+            }
+            if(team[go] == 0) {
+                while(!team[go]) {
+                    team[go] = 1;
+                    go = adj[go];
+                }
+            }
+            go = i;
+            while(!team[go]) {
+                team[go] = 2;
+                go = adj[go];
+            }
+        }
+        
+        int result = 0;
+        for(int i = 1; i <= n; i++)
+            if(team[i] == 2) result++;
+        cout << result << '\n';
     }
-
-    for(int i = 0; i < s.size(); i++)
-        cout << c[i];
 }
