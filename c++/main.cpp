@@ -7,13 +7,13 @@ int main() {
     cin.tie(0); 
     cout.tie(0);
 
-    vector<char> vc;
+    list<char> vc;
     string s;
     cin >> s;
     for(int i = 0; i < s.size(); i ++)
         vc.push_back(s[i]);
 
-    int cur = vc.size();
+    auto it = vc.end();
     int m;
     cin >> m;
     while(m--) {
@@ -21,25 +21,21 @@ int main() {
         cin >> cmd;
         switch(cmd) {
             case 'L':
-                cur -= 1;
-                if(cur < 0) cur = 0;
+                if(it != vc.begin()) it--;
                 break;
             case 'D':
-                cur++;
-                if(cur > vc.size()) cur = vc.size();
+                if(it != vc.end()) it++;
                 break;
             case 'B':
-                if(cur > 0) {
-                    vc.erase(vc.begin() + cur - 1);
-                    cur--;
-                }
+                if(it != vc.end()) it = vc.erase(it);
                 break;
             case 'P':
                 char a;
                 cin >> a;
-                vc.insert(vc.begin() + cur, a);
-                cur++;
+                vc.insert(it, a);
                 break;
         }
     }
+    for(char c : vc)
+        cout << c;
 }
