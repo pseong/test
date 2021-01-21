@@ -6,20 +6,18 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    bool prime[1000001];
-    for(int i = 0; i <= 1000000; i++)
+    bool prime[1000001]{ 0 };
+    for(int i = 3; i < 1000000; i += 2)
         prime[i] = 1;
 
+    vector<int> vprime;
     prime[1] = 0;
-    for(int i = 2; i <= 1000000; i++) {
+    for(int i = 3; i < 1000000; i += 2) {
         if(prime[i] == 0) continue;
-        for(int j = i * 2; j <= 1000000; j += i)
+        vprime.push_back(i);
+        for(int j = i * 3; j < 1000000; j += i * 2)
             prime[j] = 0;
     }
-
-    vector<int> vprime;
-    for(int i = 2; i < 1000000; i++)
-        if(prime[i]) vprime.push_back(i);
 
     int prm_size = vprime.size();
     while(1) {
@@ -34,10 +32,15 @@ int main() {
             int sum = vprime[left] + vprime[right];
             if(sum > n) right--;
             else if(sum < n) left++;
-            else cout << n << " = "
-                << vprime[left] << " + " << vprime[right] << '\n';
-            if(left > right)
+            else {
+                cout << n << " = " << vprime[left] << 
+                    " + " << vprime[right] << '\n';
+                break;
+            }
+            if(left > right) {
                 cout << "Goldbach's conjecture is wrong.\n";
+                break;
+            }
         }
     }
 }
