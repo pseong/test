@@ -3,10 +3,14 @@
 using namespace std;
 
 int result = 0;
+int result_node = 0;
 vector<pair<int, int>> adj[100010];
 
 void dfs(int n, int dia, int pre) {
-    result = max(result, dia);
+    if(result < dia) {
+        result = dia;
+        result_node = n;
+    } 
     for(auto a : adj[n]) {
         if(a.first == pre) continue;
         dfs(a.first, dia + a.second, n);
@@ -31,14 +35,14 @@ int main() {
             adj[n].push_back({n2, n3});
         }
     }
-    int start = 0;
-    for(int i = 1; i <= v; i++) {
-        if(adj[i].size() == 1) {
-            start = i;
-            break;
-        }
-    }
 
-    dfs(start, 0, 0);
+    
+    dfs(1, 0, 0);
+    int start = result_node;
+    result_node = 0;
+    result = 0;
+
+    dfs(result_node, 0, 0);
+
     cout << result;
 }

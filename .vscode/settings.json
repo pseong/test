@@ -4,7 +4,10 @@
         "functional": "cpp",
         "random": "cpp",
         "valarray": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp"
     },
     "cmake.configureOnOpen": false
 }
