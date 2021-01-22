@@ -2,38 +2,37 @@
 
 using namespace std;
 
+typedef long long ll;
+
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    long long  mx = 0;
-    long long a[10001]{ 0 };
-    int k, n;
-    cin >> k >> n;
-    for(int i = 1; i <= k; i++) {
+    ll a[1000001]{ 0 };
+    int n, m;
+    cin >> n >> m;
+
+    ll mx = 0;
+    for(int i = 1; i <= n; ++i) {
         cin >> a[i];
         mx = max(mx, a[i]);
     }
 
-
-    long long result = 0;
-    long long  left = 1;
-    long long  right = mx;
+    ll left = 1;
+    ll right = mx;
+    ll result = 0;
     while(left <= right) {
-        long long  mid = (left + right) / 2;
-
-        int made = 0;
-        for(int i = 1; i <= k; i++) {
-            made += a[i] / mid;
+        ll mid = (left + right) / 2;
+        ll sum = 0;
+        for(int i = 1; i <= n; ++i) {
+            sum += max(0ll, a[i] - mid);
         }
-        
-        if(made < n) {
+        if(sum < m) {
             right = mid - 1;
         } else {
-            left = mid + 1;
             result = max(result, mid);
+            left = mid + 1
         }
     }
-
     cout << result;
 }
