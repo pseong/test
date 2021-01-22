@@ -8,35 +8,33 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    ll x[200001]{ 0 };
-    int n, c;
+    int a[500001]{ 0 };
+    int n;
+    cin >> n;
 
-    cin >> n >> c;
-    for(int i = 1; i <= n; ++i) cin >> x[i];
+    for(int i = 1; i <= n; i++) cin >> a[i];
 
-    sort(x + 1, x + 1 + n);
+    sort(a + 1, a + 1 + n);
 
-    ll left = 1;
-    ll right = x[n] - x[1];
+    int x[500001]{ 0 };
+    int m;
+    cin >> m;
 
-    ll result = 0;
-    ll pre = -1000000000;
-    while(left <= right) {
-        ll mid = (left + right) >> 1;
-
-        ll cnt = 0;
-        for(int i = 1; i <= n; i++) {
-            if(x[i] - pre >= mid) {
-                pre = x[i];
-                cnt++;
+    for(int i = 1; i <= m; i++) {
+        int left = 1;
+        int right = n;
+        bool find = 0;
+        while(left <= right) {
+            int mid = (left + right) >> 1;
+            if (x[i] > x[mid]) {
+                left = mid + 1;
+            } else if (x[i] < x[mid]) {
+                right = mid - 1;
+            } else {
+                find = 1;
+                break;
             }
         }
-        if(cnt >= c) {
-            result = max(result, mid);
-            left = mid + 1;
-        } else {
-            right = mid - 1;
-        }
+        cout << (find ? 1 : 0) << ' ';
     }
-    cout << result;
 }
