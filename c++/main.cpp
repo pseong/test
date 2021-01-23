@@ -6,27 +6,50 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    int n;
-    cin >> n;
+    vector<int> a;
+    vector<int> b;
 
-    bool prime[100001];
-    memset(prime, 1, sizeof(prime));
-    prime[0] = 0;
-    prime[1] = 0;
+    int n, m;
+    cin >> n >> m;
 
-    for(int i = 1; i*i <= 100000; i++) {
-        if(!prime[i]) continue;
-        for(int j = 2*i; j <= 10000; j += i) {
-            prime[j] = 0;
-        }
+    int d;
+    for(int i = 1; i <= n; i++) {
+        cin >> d;
+        a.push_back(d);
     }
-    for(int i = 1; i <= 100000; i++) {
-        if(prime[i]) {
-            while(n%i == 0) {
-                cout << i << '\n';
-                n /= i;
-            }
+    for(int i = 1; i <= m; i++) {
+        cin >> d;
+        b.push_back(d);
+    }
+
+    vector<int> result;
+
+    int size_a = a.size();
+    int size_b = b.size();
+
+    int i = 0;
+    int j = 0;
+
+    while(1) {
+        if(a[i] >= b[j]) {
+            result.push_back(b[j]);
+            ++j;
         }
-        if(n == 1) break;
+        else {
+            result.push_back(a[i]);
+            ++i;
+        }
+        if(i == size_a || j == size_b) break;
+    }
+    if(j == size_b) {
+        swap(a, b);
+        swap(i, j);
+    }
+    while(i != size_a) {
+        result.push_back(a[i]);
+        i++;
+    }
+    for(int re : result) {
+        cout << re << ' ';
     }
 }
