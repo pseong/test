@@ -2,45 +2,41 @@
 
 using namespace std;
 
-int mp[65][65]{ 0 };
-int n;
+int mp[6562][6562]{ 0 };
 
-bool valid(int i, int j, int i2, int j2) {
-    bool pre = mp[i][j];
-    for(int i  = 1; i <= i2; i++) {
-        for(int j = 1; j <= j2; j++) {
-            if(mp[i][j] != pre) return false;
+void fill(int i, int j, int i2, int j2) {
+    for(int n = i; n <= i2; n++) {
+        for(int m = j; m <= j2; m++) {
+            mp[n][m] = 1;
         }
     }
-    return true;
+    mp[(i + i2) / 2][(j + j2) / 2] = 0;
 }
 
 void partition(int i, int j, int i2, int j2) {
-    cout << '(';
-    if(valid(i, j, i2, j2)) cout << mp[i][j];
+    if(i2 - i + 1 == 3) fill(i, j, i2, j2);
     else {
-        int gap = (i + i2 - 1) / 2;
-        partition(i, j, i+gap-1, j+gap-1);
-        partition(i, j+gap, i+gap-1, j+2*gap-1);
-        partition(i+gap, j, i+2*gap-1, j+gap-1);
-        partition(i+gap, j+gap, i+2*gap-1, j+2*gap-1);
+        int gap = (i2 - i + 1) / 3;
+        for(int n = i; n < i2; n += gap) {
+            for(int m = j; m < j2; j += gap) {
+                if(n == n+gap && m == m+gap) continue;
+                partition(n, m, n+gap-1, m+gap-1);
+            }
+        }
     }
-    cout << ')';
 }
 
 int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
+    int n;
     cin >> n;
 
-    string s;
-    for(int i  = 1; i <= n; i++) {
-        cin >> s;
+    for(int i = 1; i <= n; i++) {
         for(int j = 1; j <= n; j++) {
-            mp[i][j] = s[j - 1] - '0';
+            if(mp[i][j]) putchar('*');
         }
+        putchar('\n');
     }
-
-    partition(1, 1, n, n);
 }
