@@ -2,24 +2,30 @@
 
 using namespace std;
 
-int mp[3073][6500]{ 0 };
+int a[501]{ 0 };
+int tree[20000]{ 0 };
+int tree_size[20000]{ 0 };
+int ans = 0;
 
-void fill(int i, int j, int i2, int j2) {
-    mp[i][j+2] = 1;
-    mp[i+1][j+1] = 1;
-    mp[i+1][j+3] = 1;
-    for(int m = j; m <= j2; m++)
-        mp[i+2][m] = 1;
+int init(int start, int end, int node) {
+    if(start == end) {
+        tree_size[node] = 1;
+        return tree[node] = a[start];
+    }
+    int mid = (start + end) / 2;
+    int a = init(start, mid, node * 2);
+    tree[node] = init(start, mid, node * 2) + init(mid + 1, end, node * 2 + 1);
+    tree_size[node] = tree_size[node * 2] + tree_size[node * 2 + 1];
+    return tree[node];
 }
 
-void partition(int i, int j, int i2, int j2) {
-    if(i2 == 3) fill(i, j, i2, j2);
+void bubble(int node) {
+    if(out_of_range || !tree_size[node]) return;
+    if(tree[node * 2] > tree[node * 2 + 1]) {
+        ans += (tree_size[node * 2] + tree_size[node * 2 + 1]);
+    } 
     else {
-        int gapX = (j2-j) / 2;
-        int gapY = (i2-i+1) / 2;
-        partition(i, (gapX+1)/2+1, i+gapY-1,(gapX+1)/2+gapX);
-        partition(i+gapY, j, i+2*gapY-1, j+gapY-1);
-        partition(i+gapY, j+gapX+1, i+2*gapY-1, j+2*gapY);
+        bubble
     }
 }
 
@@ -29,13 +35,12 @@ int main() {
 
     int n;
     cin >> n;
-
-    partition(1, 1, n, 2*n-1);
-
     for(int i = 1; i <= n; i++) {
-        for(int j = 1; j <= 2*n-1; j++) {
-            if(mp[i][j]) putchar('*');
-        }
-        putchar('\n');
+        cin >> a[i];
+    }
+
+    init(1, n, 1);
+    for(int i = 1; i <= n * 4; i++) {
+        cout << tree[i] << ' ';
     }
 }
