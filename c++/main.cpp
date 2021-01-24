@@ -6,6 +6,7 @@ int a[501]{ 0 };
 int tree[20000]{ 0 };
 int tree_size[20000]{ 0 };
 int ans = 0;
+int n;
 
 int init(int start, int end, int node) {
     if(start == end) {
@@ -20,12 +21,13 @@ int init(int start, int end, int node) {
 }
 
 void bubble(int node) {
-    if(out_of_range || !tree_size[node]) return;
+    if(node > n * 4 || !tree_size[node]) return;
     if(tree[node * 2] > tree[node * 2 + 1]) {
         ans += (tree_size[node * 2] + tree_size[node * 2 + 1]);
     } 
     else {
-        bubble
+        bubble(node * 2);
+        bubble(node * 2 + 1);
     }
 }
 
@@ -33,7 +35,6 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    int n;
     cin >> n;
     for(int i = 1; i <= n; i++) {
         cin >> a[i];
@@ -43,4 +44,6 @@ int main() {
     for(int i = 1; i <= n * 4; i++) {
         cout << tree[i] << ' ';
     }
+
+    cout << ans;
 }
