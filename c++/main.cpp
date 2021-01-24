@@ -2,27 +2,24 @@
 
 using namespace std;
 
-int mp[6562][6562]{ 0 };
+int mp[3073][6500]{ 0 };
 
 void fill(int i, int j, int i2, int j2) {
-    for(int n = i; n <= i2; n++) {
-        for(int m = j; m <= j2; m++) {
-            mp[n][m] = 1;
-        }
-    }
-    mp[(i + i2) / 2][(j + j2) / 2] = 0;
+    mp[i][j+2] = 1;
+    mp[i+1][j+1] = 1;
+    mp[i+1][j+3] = 1;
+    for(int m = j; m <= j2; m++)
+        mp[i+2][m] = 1;
 }
 
 void partition(int i, int j, int i2, int j2) {
-    if(i2 - i + 1 == 3) fill(i, j, i2, j2);
+    if(i2 == 3) fill(i, j, i2, j2);
     else {
-        int gap = (i2 - i + 1) / 3;
-        for(int n = i; n < i2; n += gap) {
-            for(int m = j; m < j2; j += gap) {
-                if(n == n+gap && m == m+gap) continue;
-                partition(n, m, n+gap-1, m+gap-1);
-            }
-        }
+        int gapX = (j2-j) / 2;
+        int gapY = (i2-i+1) / 2;
+        partition(i, (gapX+1)/2+1, i+gapY-1,(gapX+1)/2+gapX);
+        partition(i+gapY, j, i+2*gapY-1, j+gapY-1);
+        partition(i+gapY, j+gapX+1, i+2*gapY-1, j+2*gapY);
     }
 }
 
@@ -33,8 +30,10 @@ int main() {
     int n;
     cin >> n;
 
+    partition(1, 1, n, 2*n-1);
+
     for(int i = 1; i <= n; i++) {
-        for(int j = 1; j <= n; j++) {
+        for(int j = 1; j <= 2*n-1; j++) {
             if(mp[i][j]) putchar('*');
         }
         putchar('\n');
